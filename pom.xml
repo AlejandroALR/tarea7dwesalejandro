@@ -9,9 +9,9 @@
 		<relativePath />
 	</parent>
 	<groupId>com.alejandro</groupId>
-	<artifactId>tareadwesalejandro</artifactId>
+	<artifactId>tarea7dwesalejandro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tareadwesalejandro</name>
+	<name>tarea7dwesalejandro</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>19</java.version>

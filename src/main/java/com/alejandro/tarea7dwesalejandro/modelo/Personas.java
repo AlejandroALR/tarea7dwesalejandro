@@ -1,22 +1,21 @@
 package com.alejandro.tarea7dwesalejandro.modelo;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
 @Entity
 @Table(name = "Personas")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Personas implements Serializable{
 	
 	private static final long serialVersionUID = 1L;

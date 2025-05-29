@@ -1,5 +1,6 @@
 package com.alejandro.tarea7dwesalejandro.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,12 +28,14 @@ public class SecurityConfig {
     @Value("${app.admin.password}")
     private String adminPassword;
 
+    @Autowired
+    private CustomSuccessHandler customSuccessHandler;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // COMBINAR ADMIN + BBDD
     @Bean
     public UserDetailsService combinedUserDetailsService(ServiciosDetallesUsuarios serviciosDetallesUsuarios) {
         UserDetails admin = User.builder()
@@ -58,14 +61,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/css/**", "/invitado", "/perfiles/**", "/plantas/verPlantasInvi").permitAll()
+                .requestMatchers("/", "/login", "/clientes/registro", "/css/**", "/invitado", "/perfiles/**", "/plantas/verPlantasInvi").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/personal/**").hasRole("PERSONAL")
+                .requestMatchers("/cliente/**").hasRole("CLIENTE")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/login")
-                .defaultSuccessUrl("/home", true)
+                .successHandler(customSuccessHandler)
                 .permitAll()
             )
             .logout(logout -> logout
@@ -76,5 +80,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
-
