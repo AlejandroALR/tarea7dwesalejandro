@@ -67,7 +67,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/login", "/logout", "/clientes/registro", "/plantas/verPlantasInvi", "/error/accesoDenegado", "/invitado/**", "/css/**", "/js/**", "/images/**").permitAll()
 
                 // Zona clientes (CLIENTE, ADMIN y PERSONAL)
-                .requestMatchers("/clientes/**").hasAnyRole("CLIENTE", "ADMIN", "PERSONAL")
+                .requestMatchers("/clientes/**", "/pedidos/**").hasAnyRole("CLIENTE")
 
                 // Zona ejemplares (ADMIN, PERSONAL)
                 .requestMatchers("/ejemplares/**").hasAnyRole("ADMIN", "PERSONAL")
@@ -76,10 +76,10 @@ public class SecurityConfig {
                 .requestMatchers("/mensajes/**").hasAnyRole("ADMIN", "PERSONAL")
 
                 // Zona perfiles
-                .requestMatchers("/perfiles/admin").hasRole("ADMIN")
-                .requestMatchers("/perfiles/cliente").hasAnyRole("CLIENTE", "ADMIN", "PERSONAL")
-                .requestMatchers("/perfiles/personal").hasAnyRole("PERSONAL", "ADMIN")
-                .requestMatchers("/perfiles/invitado").permitAll()
+                .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/cliente").hasAnyRole("CLIENTE")
+                .requestMatchers("/personal").hasAnyRole("PERSONAL", "ADMIN")
+                .requestMatchers("/invitado").permitAll()
 
                 // Zona personas (ADMIN)
                 .requestMatchers("/personas/**").hasRole("ADMIN")

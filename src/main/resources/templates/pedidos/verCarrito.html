@@ -97,7 +97,7 @@
                     <td th:text="${item.codigo}"></td>
                     <td th:text="${item.cantidad}"></td>
                     <td>
-                        <form th:action="@{/clientes/carrito/eliminar}" method="post">
+                        <form th:action="@{/pedidos/carrito/eliminar}" method="post">
                             <input type="hidden" name="codigo" th:value="${item.codigo}" />
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <button type="submit" class="boton-grande boton-marron"
@@ -109,17 +109,17 @@
         </table>
 
         <div class="botones">
-            <form th:action="@{/clientes/confirmarPedido}" method="post">
+            <form th:action="@{/pedidos/confirmar}" method="post">
                 <button type="submit" class="boton-grande boton-verde">Confirmar Pedido</button>
             </form>
 
-            <a th:href="@{/clientes/realizarPedido}" class="boton-grande boton-marron">Seguir Comprando</a>
+            <a th:href="@{/pedidos/realizar}" class="boton-grande boton-marron">Seguir Comprando</a>
         </div>
     </div>
 
     <div th:if="${carrito == null or #lists.isEmpty(carrito.items)}" class="centrado">
         <p>No tienes productos en tu carrito.</p>
-        <a th:href="@{/clientes/realizarPedido}" class="boton-grande boton-verde">Realizar Pedido</a>
+        <a th:href="@{/pedidos/realizar}" class="boton-grande boton-verde">Realizar Pedido</a>
     </div>
 
 </body>

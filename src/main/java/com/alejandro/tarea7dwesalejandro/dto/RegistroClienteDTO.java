@@ -19,6 +19,7 @@ public class RegistroClienteDTO {
 
     @NotBlank(message = "El NIF/NIE no puede estar vacío.")
     @Pattern(regexp = "^[0-9XYZ][0-9]{7}[A-Z]$", message = "El NIF/NIE tiene un formato inválido.")
+    @Pattern(regexp = "^\\S+$", message = "El NIF/NIE no debe contener espacios.")
     private String nifNie;
 
     @NotBlank(message = "La dirección no puede estar vacía.")
@@ -27,18 +28,22 @@ public class RegistroClienteDTO {
 
     @NotBlank(message = "El teléfono no puede estar vacío.")
     @Pattern(regexp = "^[0-9]{9}$", message = "El teléfono debe tener 9 dígitos.")
+    @Pattern(regexp = "^\\S+$", message = "El teléfono no debe contener espacios.")
     private String telefono;
 
     @NotBlank(message = "El email no puede estar vacío.")
     @Email(message = "El formato del email no es válido.")
+    @Pattern(regexp = "^\\S+$", message = "El email no debe contener espacios.")
     private String email;
 
     @NotBlank(message = "El nombre de usuario no puede estar vacío.")
     @Size(min = 4, max = 30, message = "El usuario debe tener entre 4 y 30 caracteres.")
+    @Pattern(regexp = "^\\S+$", message = "El usuario no debe contener espacios.")
     private String usuario;
 
     @NotBlank(message = "La contraseña no puede estar vacía.")
     @Size(min = 4, message = "La contraseña debe tener al menos 4 caracteres.")
+    @Pattern(regexp = "^\\S+$", message = "La contraseña no debe contener espacios.")
     private String password;
 
 
