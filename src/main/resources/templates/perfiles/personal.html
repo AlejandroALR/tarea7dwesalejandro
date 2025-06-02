@@ -70,7 +70,7 @@
     <a th:href="@{/plantas/verPlantas}">Ver Plantas</a>
     <a th:href="@{/ejemplares/gestionEjemplares}">Gestión de los Ejemplares</a>
     <a th:href="@{/mensajes/gestionMensajes}">Gestión de los Mensajes</a>
-    <a th:href="@{/clientes/filtrarPedidos}">Filtrar Pedidos</a>
+    <a th:href="@{/pedidos/filtrar}">Filtrar Pedidos</a>
     <form th:action="@{/logout}" method="post">
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
       <button type="submit" class="logout">Cerrar sesión</button>

@@ -86,9 +86,9 @@
 
 <h2>Filtrar Pedidos por Fecha</h2>
 
-<form th:action="@{/clientes/filtrarPedidos}" method="post">
-    <input type="date" th:field="*{filtro.desde}" required />
-    <input type="date" th:field="*{filtro.hasta}" required />
+<form th:action="@{/pedidos/filtrar}" method="post" th:object="${filtro}">
+    <input type="date" th:field="*{desde}" required />
+    <input type="date" th:field="*{hasta}" required />
     <button type="submit" class="boton-verde">Buscar</button>
 </form>
 

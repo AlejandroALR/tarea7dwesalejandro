@@ -67,6 +67,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/login", "/logout", "/clientes/registro", "/plantas/verPlantasInvi", "/error/accesoDenegado", "/invitado/**", "/css/**", "/js/**", "/images/**").permitAll()
 
                 // Zona clientes (CLIENTE, ADMIN y PERSONAL)
+                .requestMatchers("/pedidos/filtrar").hasAnyRole("PERSONAL")
                 .requestMatchers("/clientes/**", "/pedidos/**").hasAnyRole("CLIENTE")
 
                 // Zona ejemplares (ADMIN, PERSONAL)

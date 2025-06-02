@@ -107,7 +107,7 @@ public class ServiciosPedidos {
     }
     
     public List<Pedido> obtenerPedidosDePersona(Personas persona) {
-        return pedidoRepository.findByPersona(persona);
+        return pedidoRepository.findWithItemsByPersona(persona);
     }
     
     public Pedido obtenerPedidoPorId(Long id) {
@@ -115,8 +115,15 @@ public class ServiciosPedidos {
                 .orElseThrow(() -> new RuntimeException("Pedido no encontrado con ID: " + id));
     }
     
+    @Transactional
     public List<Pedido> filtrarPedidosPorFecha(LocalDate desde, LocalDate hasta) {
-        return pedidoRepository.findByFechaBetween(desde, hasta);
+        List<Pedido> pedidos = pedidoRepository.findByFechaBetween(desde, hasta);
+
+        for (Pedido p : pedidos) {
+            p.getItems().size();
+        }
+
+        return pedidos;
     }
 }
 
