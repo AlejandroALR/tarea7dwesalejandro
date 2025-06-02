@@ -35,5 +35,9 @@ public interface MensajesRepository extends JpaRepository<Mensajes, Long> {
     
     List<Mensajes> findByEjemplarOrderByFechaDesc(Ejemplares ejemplar);
 
+    List<Mensajes> findByEjemplarPlantaCodigo(String codigoPlanta);
+    
+    List<Mensajes> findByPersonaId(Long id);
+
 
 }

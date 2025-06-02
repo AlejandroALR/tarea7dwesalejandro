@@ -1,5 +1,6 @@
 package com.alejandro.tarea7dwesalejandro.controladores;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
@@ -37,16 +38,19 @@ public class WebController {
     }
 
     @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
     public String admin() {
         return "perfiles/admin"; // admin.html
     }
 
     @GetMapping("/personal")
+    @PreAuthorize("hasRole('PERSONAL', 'ADMIN')")
     public String personal() {
         return "perfiles/personal"; // personal.html
     }
 
     @GetMapping("/cliente")
+    @PreAuthorize("hasRole('CLIENTE', 'ADMIN', 'PERSONAL')")
     public String cliente() {
         return "perfiles/cliente"; // cliente.html 
     }
@@ -55,5 +59,7 @@ public class WebController {
     public String invitado() {
         return "perfiles/invitado"; // invitado.html
     }
+    
+    
 }
 

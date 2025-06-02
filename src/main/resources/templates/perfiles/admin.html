@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
   <title>Menú Administrador</title>
@@ -12,9 +13,11 @@
       align-items: center;
       padding: 2rem;
     }
+
     h1 {
       color: #333;
     }
+
     .menu {
       display: flex;
       flex-direction: column;
@@ -22,21 +25,34 @@
       margin-top: 2rem;
       width: 300px;
     }
-    .menu a {
+
+    .menu a,
+    .menu form button {
       display: block;
+      width: 100%;
       padding: 1rem;
       text-align: center;
-      background:  #4CAF50;;
+      background: #4CAF50;
       color: white;
       text-decoration: none;
+      border: none;
       border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
       transition: background 0.2s;
     }
-    .menu a:hover {
+
+    .menu a:hover,
+    .menu form button:hover {
       background: #1c7a1f;
+    }
+
+    .menu form {
+      margin: 0;
     }
   </style>
 </head>
+
 <body>
   <h1>-+- MENÚ ADMINISTRADOR -+-</h1>
   <h2>- Bienvenido Admin -</h2>
@@ -45,7 +61,11 @@
     <a th:href="@{/plantas/gestionPlantas}">Gestión Plantas</a>
     <a th:href="@{/ejemplares/gestionEjemplares}">Gestión Ejemplares</a>
     <a th:href="@{/mensajes/gestionMensajes}">Gestión Mensajes</a>
-    <a th:href="@{/login}">Cerrar Sesión</a>
+    <form th:action="@{/logout}" method="post">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <button type="submit">Cerrar sesión</button>
+    </form>
   </div>
 </body>
+
 </html>

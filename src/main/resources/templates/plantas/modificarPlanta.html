@@ -116,7 +116,8 @@
             th:if="${plantaSeleccionada.codigo != null}">
 
             <label for="codigo">Código (no editable):</label>
-            <input type="text" class="form-control" id="codigo" th:field="*{codigo}" readonly />
+            <input type="hidden" th:field="*{codigo}" />
+            <input type="text" class="form-control" th:value="*{codigo}" readonly />
 
             <label for="nombreCientifico">Nombre Científico:</label>
             <input type="text" class="form-control" id="nombreCientifico" th:field="*{nombreCientifico}" />

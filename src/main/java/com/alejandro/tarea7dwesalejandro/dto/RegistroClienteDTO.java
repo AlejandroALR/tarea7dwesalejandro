@@ -1,48 +1,85 @@
 package com.alejandro.tarea7dwesalejandro.dto;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class RegistroClienteDTO {
 
-    @NotBlank(message = "El nombre completo no puede estar en blanco")
-    private String nombre;
+    @NotBlank(message = "El nombre completo no puede estar vacío.")
+    @Size(max = 100, message = "El nombre completo no puede superar los 100 caracteres.")
+    private String nombreCompleto;
 
-    @NotBlank(message = "El email no puede estar en blanco")
-    @Email(message = "El formato del email no es válido")
-    @Pattern(regexp = "^\\S+$", message = "El email no puede contener espacios")
-    private String email;
-
-    @NotBlank(message = "El nombre de usuario no puede estar en blanco")
-    @Pattern(regexp = "^\\S+$", message = "El nombre de usuario no puede contener espacios")
-    private String usuario;
-
-    @NotBlank(message = "La contraseña no puede estar en blanco")
-    @Pattern(regexp = "^\\S+$", message = "La contraseña no puede contener espacios")
-    private String password;
-
-    @NotNull(message = "Debe indicar la fecha de nacimiento")
+    @NotNull(message = "La fecha de nacimiento es obligatoria.")
     private LocalDate fechaNacimiento;
 
-    @NotBlank(message = "El NIF/NIE no puede estar en blanco")
-    @Pattern(regexp = "^\\S+$", message = "El NIF/NIE no puede contener espacios")
+    @NotBlank(message = "El NIF/NIE no puede estar vacío.")
+    @Pattern(regexp = "^[0-9XYZ][0-9]{7}[A-Z]$", message = "El NIF/NIE tiene un formato inválido.")
     private String nifNie;
 
-    @NotBlank(message = "La dirección de envío no puede estar en blanco")
-    private String direccionEnvio;
+    @NotBlank(message = "La dirección no puede estar vacía.")
+    @Size(max = 150, message = "La dirección no puede superar los 150 caracteres.")
+    private String direccion;
 
-    @NotBlank(message = "El teléfono no puede estar en blanco")
-    @Pattern(regexp = "^\\S+$", message = "El teléfono no puede contener espacios")
+    @NotBlank(message = "El teléfono no puede estar vacío.")
+    @Pattern(regexp = "^[0-9]{9}$", message = "El teléfono debe tener 9 dígitos.")
     private String telefono;
 
-    // Getters y Setters
+    @NotBlank(message = "El email no puede estar vacío.")
+    @Email(message = "El formato del email no es válido.")
+    private String email;
 
-    public String getNombre() {
-        return nombre;
+    @NotBlank(message = "El nombre de usuario no puede estar vacío.")
+    @Size(min = 4, max = 30, message = "El usuario debe tener entre 4 y 30 caracteres.")
+    private String usuario;
+
+    @NotBlank(message = "La contraseña no puede estar vacía.")
+    @Size(min = 4, message = "La contraseña debe tener al menos 4 caracteres.")
+    private String password;
+
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getNifNie() {
+        return nifNie;
+    }
+
+    public void setNifNie(String nifNie) {
+        this.nifNie = nifNie;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getEmail() {
@@ -68,39 +105,6 @@ public class RegistroClienteDTO {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getNifNie() {
-        return nifNie;
-    }
-
-    public void setNifNie(String nifNie) {
-        this.nifNie = nifNie;
-    }
-
-    public String getDireccionEnvio() {
-        return direccionEnvio;
-    }
-
-    public void setDireccionEnvio(String direccionEnvio) {
-        this.direccionEnvio = direccionEnvio;
-    }
-
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-    
-    
 }
+
 

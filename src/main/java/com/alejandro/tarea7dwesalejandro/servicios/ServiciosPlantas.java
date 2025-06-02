@@ -29,7 +29,7 @@ public class ServiciosPlantas {
     }
 
     public List<Plantas> listarTodas() {
-        return plantasRepository.findAll();
+        return plantasRepository.findAllConEjemplares();
     }
 
     public boolean existePorCodigo(String codigo) {

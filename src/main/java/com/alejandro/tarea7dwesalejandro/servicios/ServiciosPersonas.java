@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +58,11 @@ public class ServiciosPersonas {
     public Optional<Personas> buscarPorEmail(String email) {
         return personasRepository.findByEmail(email);
     }
+    
+    public Personas buscarPorUsuario(String usuario) {
+        return personasRepository.findByUsuario(usuario)
+            .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + usuario));
+    }
 
     public List<Personas> listarTodas() {
         return personasRepository.findAll();
@@ -64,16 +71,15 @@ public class ServiciosPersonas {
     public boolean emailExiste(String email) {
         return personasRepository.existsByEmail(email);
     }
-    
+
     public boolean usuarioExiste(String usuario) {
         return credencialesRepository.findByUsuario(usuario).isPresent();
     }
 
-
     public void actualizarCredenciales(Personas persona, Long idCredenciales) {
         personasRepository.save(persona);
     }
-    
+
     public Long obtenerIdDesdeAuth(Authentication auth) {
         if (auth == null || !auth.isAuthenticated()) {
             throw new RuntimeException("Usuario no autenticado");
@@ -81,9 +87,23 @@ public class ServiciosPersonas {
 
         String username = auth.getName();
 
-        return personasRepository.findByCredenciales_Usuario(username)
+        return personasRepository.findByUsuario(username)
                 .map(Personas::getId)
                 .orElseThrow(() -> new RuntimeException("No se encontró la persona para el usuario autenticado"));
     }
 
+    public Personas obtenerPersonaAutenticada() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) {
+            throw new RuntimeException("Usuario no autenticado");
+        }
+
+        String username = auth.getName();
+        return credencialesRepository.findByUsuario(username)
+                .map(Credenciales::getPersona)
+                .orElseThrow(() -> new RuntimeException("No se encontró la persona autenticada"));
+    }
+    
+    
 }
+

@@ -77,6 +77,7 @@ public class ServiciosEjemplares {
         Ejemplares nuevo = new Ejemplares();
         nuevo.setPlanta(planta);
         nuevo.setNombre(planta.getCodigo() + "_" + (contador + 1));
+        nuevo.setDisponible(true);
 
         ejemplaresRepository.save(nuevo);
 
@@ -133,6 +134,11 @@ public class ServiciosEjemplares {
         	return ejemplaresRepository.findWithMensajesByPlantaCodigoIn(codigosPlantas);
         }
     }
+    
+    public List<Object[]> obtenerStockPorPlanta() {
+        return ejemplaresRepository.contarEjemplaresDisponiblesPorPlanta();
+    }
+
 
 }
 

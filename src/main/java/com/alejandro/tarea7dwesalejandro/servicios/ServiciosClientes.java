@@ -24,11 +24,11 @@ public class ServiciosClientes {
 
     public void registrarCliente(RegistroClienteDTO dto) {
         Clientes cliente = new Clientes();
-        cliente.setNombre(dto.getNombre());
+        cliente.setNombre(dto.getNombreCompleto());
         cliente.setEmail(dto.getEmail());
         cliente.setFechaNacimiento(dto.getFechaNacimiento());
         cliente.setNifNie(dto.getNifNie());
-        cliente.setDireccionEnvio(dto.getDireccionEnvio());
+        cliente.setDireccionEnvio(dto.getDireccion());
         cliente.setTelefono(dto.getTelefono());
 
         Credenciales cred = new Credenciales();

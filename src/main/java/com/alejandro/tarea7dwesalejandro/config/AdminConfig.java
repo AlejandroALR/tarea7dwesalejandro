@@ -29,22 +29,4 @@ public class AdminConfig {
 
         return new InMemoryUserDetailsManager(admin);
     }
-    
-
-//    private final AppProperties appProperties;
-//
-//    public AdminConfig(AppProperties appProperties) {
-//        this.appProperties = appProperties;
-//    }
-//
-//    @Bean
-//    public InMemoryUserDetailsManager adminUserDetailsManager() {
-//        UserDetails admin = User.builder()
-//                .username(appProperties.getUsername())
-//                .password(appProperties.getPassword())
-//                .authorities(List.of(new SimpleGrantedAuthority("ROLE_ADMIN")))
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin);
-//    }
 }

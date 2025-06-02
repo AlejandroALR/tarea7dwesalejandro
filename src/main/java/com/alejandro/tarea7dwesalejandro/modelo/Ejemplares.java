@@ -1,7 +1,6 @@
 package com.alejandro.tarea7dwesalejandro.modelo;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -18,15 +17,18 @@ public class Ejemplares implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String nombre;
 
     @ManyToOne
-    @JoinColumn(name = "fk_planta", referencedColumnName = "codigo", nullable=false)
+    @JoinColumn(name = "fk_planta", referencedColumnName = "codigo", nullable = false)
     private Plantas planta;
 
-    @OneToMany(mappedBy = "ejemplar", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ejemplar", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Mensajes> mensajes = new LinkedList<>();
+
+    @Column(name = "disponible", nullable = false)
+    private boolean disponible = true;
 
     public Ejemplares() {
     }
@@ -34,6 +36,7 @@ public class Ejemplares implements Serializable {
     public Ejemplares(String nombre, Plantas planta) {
         this.nombre = nombre;
         this.planta = planta;
+        this.disponible = true;
     }
 
     public Long getId() {
@@ -68,9 +71,17 @@ public class Ejemplares implements Serializable {
         this.mensajes = mensajes;
     }
 
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, mensajes, nombre, planta);
+        return Objects.hash(id, nombre, planta);
     }
 
     @Override
@@ -80,16 +91,16 @@ public class Ejemplares implements Serializable {
         Ejemplares other = (Ejemplares) obj;
         return Objects.equals(id, other.id)
                 && Objects.equals(nombre, other.nombre)
-                && Objects.equals(planta, other.planta)
-                && Objects.equals(mensajes, other.mensajes);
+                && Objects.equals(planta, other.planta);
     }
 
     @Override
     public String toString() {
         return "Ejemplares [id=" + id +
                 ", nombre=" + nombre +
-                ", planta=" + planta +
-                ", mensajes=" + mensajes + "]";
+                ", planta=" + planta.getCodigo() +
+                ", disponible=" + disponible +
+                ", mensajes=" + mensajes.size() + "]";
     }
 }
 

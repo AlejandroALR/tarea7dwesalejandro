@@ -12,7 +12,6 @@ import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
 import com.alejandro.tarea7dwesalejandro.servicios.ServiciosDetallesUsuarios;
 import com.alejandro.tarea7dwesalejandro.servicios.ServiciosUsuariosCombinados;
 
@@ -30,6 +29,9 @@ public class SecurityConfig {
 
     @Autowired
     private CustomSuccessHandler customSuccessHandler;
+
+    @Autowired
+    private LogoutCarritoHandler logoutCarritoHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -61,10 +63,32 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/clientes/registro", "/css/**", "/invitado", "/perfiles/**", "/plantas/verPlantasInvi").permitAll()
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/personal/**").hasRole("PERSONAL")
-                .requestMatchers("/cliente/**").hasRole("CLIENTE")
+                // Acceso libre (todos los roles incluyendo invitado)
+                .requestMatchers("/", "/login", "/logout", "/clientes/registro", "/plantas/verPlantasInvi", "/error/accesoDenegado", "/invitado/**", "/css/**", "/js/**", "/images/**").permitAll()
+
+                // Zona clientes (CLIENTE, ADMIN y PERSONAL)
+                .requestMatchers("/clientes/**").hasAnyRole("CLIENTE", "ADMIN", "PERSONAL")
+
+                // Zona ejemplares (ADMIN, PERSONAL)
+                .requestMatchers("/ejemplares/**").hasAnyRole("ADMIN", "PERSONAL")
+
+                // Zona mensajes (ADMIN, PERSONAL)
+                .requestMatchers("/mensajes/**").hasAnyRole("ADMIN", "PERSONAL")
+
+                // Zona perfiles
+                .requestMatchers("/perfiles/admin").hasRole("ADMIN")
+                .requestMatchers("/perfiles/cliente").hasAnyRole("CLIENTE", "ADMIN", "PERSONAL")
+                .requestMatchers("/perfiles/personal").hasAnyRole("PERSONAL", "ADMIN")
+                .requestMatchers("/perfiles/invitado").permitAll()
+
+                // Zona personas (ADMIN)
+                .requestMatchers("/personas/**").hasRole("ADMIN")
+
+                // Zona plantas
+                .requestMatchers("/plantas/gestionPlantas", "/plantas/modificarPlanta", "/plantas/registrarPlanta").hasRole("ADMIN")
+                .requestMatchers("/plantas/verPlantas").hasAnyRole("ADMIN", "PERSONAL")
+
+                // Todo lo demás requiere autenticación
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -73,10 +97,21 @@ public class SecurityConfig {
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout")
+            	.logoutUrl("/logout")
+                .logoutSuccessHandler(logoutCarritoHandler)
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll()
+            )
+            .exceptionHandling(ex -> ex
+                .accessDeniedPage("/error/accesoDenegado")
+            )
+            .sessionManagement(session -> session
+                .invalidSessionUrl("/login")
+                .sessionFixation(sessionFixation -> sessionFixation.migrateSession())
             );
 
         return http.build();
     }
+
 }

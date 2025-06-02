@@ -69,15 +69,15 @@ public class EjemplaresController {
 		return "/ejemplares/gestionEjemplares"; // gestionEjemplares.html
 	}
 	
-	@GetMapping("/registrarEjemplar")
+	@GetMapping("/registrar")
 	public String mostrarFormularioRegistroEjemplar(Model model) {
-	    model.addAttribute("registro", new RegistroEjemplarDTO());
+	    model.addAttribute("ejemplar", new RegistroEjemplarDTO());
 	    model.addAttribute("plantas", serviciosPlantas.listarTodas());
 	    return "ejemplares/registrarEjemplar";
 	}
 
-	@PostMapping("/registrarEjemplar")
-	public String procesarRegistroEjemplar(@Valid @ModelAttribute("registro") RegistroEjemplarDTO dto,
+	@PostMapping("/registrar")
+	public String procesarRegistroEjemplar(@Valid @ModelAttribute("ejemplar") RegistroEjemplarDTO dto,
 	                                       BindingResult result,
 	                                       Model model,
 	                                       RedirectAttributes redirectAttributes,
@@ -91,8 +91,10 @@ public class EjemplaresController {
 	    serviciosEjemplares.registrarEjemplarConMensajeInicial(dto, idPersona);
 
 	    redirectAttributes.addFlashAttribute("mensaje", "Ejemplar registrado correctamente.");
-	    return "redirect:/ejemplares/registrarEjemplar";
+	    return "redirect:/ejemplares/registrar";
 	}
+
+
 	
 	@GetMapping("/filtrarEjemplares")
 	public String mostrarFormularioFiltrado(Model model) {
@@ -176,5 +178,13 @@ public class EjemplaresController {
 	    model.addAttribute("resultados", resumenes);
 	    return "ejemplares/listarMensajes";
 	}
+	
+	@GetMapping("/personal/stock")
+	public String verStock(Model model) {
+	    List<Object[]> stockPorPlanta = serviciosEjemplares.obtenerStockPorPlanta();
+	    model.addAttribute("stock", stockPorPlanta);
+	    return "ejemplares/verStock";
+	}
+
 }
 
